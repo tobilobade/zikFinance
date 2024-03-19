@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Trending Movies</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <!-- Include any additional stylesheets or libraries -->
+</head>
+<body>
+  <!-- Include your navigation bar or header -->
+  <%- include partials/header.ejs %>
+
+  <div class="container">
+    <h1>All Trending Movies</h1>
+    
+    <!-- Search bar -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search movies...">
+      <button onclick="searchMovies()">Search</button>
+    </div>
+
+    <!-- Container for displaying trending movies -->
+    <div id="trendingMoviesContainer" class="movies-container"></div>
+
+    <!-- Pagination buttons -->
+    <div id="pagination" class="pagination"></div>
+  </div>
+
+  <script src="/public/javascripts/all-trending-movies.js"></script>
+
+</body>
+</html>
