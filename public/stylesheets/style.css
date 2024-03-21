@@ -40,14 +40,45 @@ a {
 .header{
   background-color:rgb(0, 0, 0);
 }
-
 .card {
   width: calc(100% / 3 - 20px);
   margin: 10px;
   display: inline-block;
   vertical-align: top;
+  background-color: #f8f9fa; /* Background color to distinguish each card */
 }
 
 .container {
   text-align: center;
+}
+
+.card-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Use space-between to evenly distribute space between items */
+  height: 100%;
+  padding: 10px; /* Add padding to the container */
+}
+
+.card-text-container button {
+  padding: 6px 8px;
+  background-color: #323232;
+  color: coral;
+  border-radius: 10px;
+  border: none;
+  width: 50%;
+  margin: 0 5px;
+}
+
+.card-text-container p {
+  color: rgb(130, 130, 130);
+  font-weight: light;
+   /* Hide any overflowing text */
+  text-overflow: ellipsis; /* Add ellipsis (...) to indicate text overflow */
+  white-space: wrap; /* Prevent text from wrapping */
+}
+
+.card-image img {
+  max-width: 100%; /* Ensure images don't overflow the container */
+  height: auto; /* Maintain aspect ratio */
 }

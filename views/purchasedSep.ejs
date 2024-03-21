@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchased</title>
+</head>
+<body>
+    <h1>Thank you for your purchase!</h1>
+    <div>
+        <h2><%= decodeURIComponent(movieTitle) %></h2>
+        <img src="https://image.tmdb.org/t/p/w500/<%= decodeURIComponent(posterPath) %>" alt="<%= decodeURIComponent(movieTitle) %> Poster">
+        <p><%= decodeURIComponent(movieOverview) %></p>
+        <p> Purchased for 0.2 Sepolia</p>
+        <p> check your metamask wallet for transaction receipt</p>
+        <p> take this code to the nearest cinema</p>
+
+    </div>
+    <!-- Display other receipt information as needed -->
+</body>
+</html>
