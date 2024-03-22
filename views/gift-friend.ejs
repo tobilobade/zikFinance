@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Header Section -->
+    <% include partials/header.ejs %>
+
+    <!-- Contract Connection Status -->
+    <button onclick="connectContract()">CONNECT TO CONTRACT</button>
+    <p id="contractArea">Status: Not connected to Contract</p>
+
+
+    <!-- Contract Balance for Ticket Purchase -->
+    <button onclick="getContractBalance()">GET CONTRACT BALANCE (Ticket Purchase)</button>
+    <p id="contractBalance">Contract Balance (Ticket Purchase): Not Connected to Contract</p>
+
+    <!-- Withdraw from Contract -->
+    <div>
+        <button onclick="withdraw()">WITHDRAW ETHER FROM CONTRACT</button> <br>
+        <input type="text" id="addressInput" placeholder="Enter Address"> <br>
+        <input type="number" id="amountInput" placeholder="Enter Amount"> 
+    </div>
+
+    <!-- Top-Up Contract -->   
+     <!-- Top-Up Balance -->
+    <button onclick="getTopUpBalance()">GET TOP-UP BALANCE</button>
+    <p id="topUpBalance">Top-Up Balance: Not Connected to Contract</p>
+
+
+    <div>
+        <button onclick="topUpContract()">TOP-UP CONTRACT</button> <br>
+        <input type="number" id="topUpInput" placeholder="Enter Amount"> 
+    </div>
+
+    <div>
+        <button onclick="withdrawUserFunds()">WITHDRAW FROM TOP-UP</button> <br>
+        <input type="text" id="withdrawAddressInput" placeholder="Enter Withdrawal Address"> <br>
+        <input type="number" id="withdrawAmountInput" placeholder="Enter Amount"> 
+    </div>
+
+    <script src="/javascripts/gift-friend.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

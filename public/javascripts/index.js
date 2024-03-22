@@ -14,72 +14,197 @@ const connectMetamask = async () => {
 
 // Function to handle transaction
 async function handlePurchase(movieId, movieTitle, movieOverview, posterPath) {
-  const contractAddress = '0x2951bdce1ee01315327810a883a7ed187b78509f';
+  const contractAddress = '0x6af55c49055f56dc48afb7a9e182e5a6eb32c7f0';
   const contractABI = [
-      {
-          "inputs": [],
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-      },
-      {
-          "anonymous": false,
-          "inputs": [
-              {
-                  "indexed": true,
-                  "internalType": "address",
-                  "name": "buyer",
-                  "type": "address"
-              }
-          ],
-          "name": "Purchase",
-          "type": "event"
-      },
-      {
-          "inputs": [],
-          "name": "purchaseTicket",
-          "outputs": [],
-          "stateMutability": "payable",
-          "type": "function"
-      },
-      {
-          "inputs": [],
-          "name": "withdrawFunds",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-      },
-      {
-          "inputs": [],
-          "name": "owner",
-          "outputs": [
-              {
-                  "internalType": "address payable",
-                  "name": "",
-                  "type": "address"
-              }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-      },
-      {
-          "inputs": [
-              {
-                  "internalType": "address",
-                  "name": "",
-                  "type": "address"
-              }
-          ],
-          "name": "ticketsPurchased",
-          "outputs": [
-              {
-                  "internalType": "bool",
-                  "name": "",
-                  "type": "bool"
-              }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-      }
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "FundToppedUp",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Purchase",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "purchaseTicket",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "topUpFunds",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdrawal",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawTicketFunds",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawUserFunds",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getContractBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getOwner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserTopUpBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address payable",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userBalances",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
   ]; // Your contract ABI
 
   try {
@@ -99,7 +224,7 @@ async function handlePurchase(movieId, movieTitle, movieOverview, posterPath) {
           // Call the purchaseTicket function
           const receipt = await contract.methods.purchaseTicket().send({
               from: account,
-              value: web3.utils.toWei('0.2', 'ether'), // Sending 0.2 ether
+              value: web3.utils.toWei('0.1', 'ether'), // Sending 0.2 ether
           });
 
           // Transaction successful, redirect user
@@ -175,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <h5 class="card-title">${movie.title}</h5>
                 <p class="card-text">${truncatedOverview} ...</p>
                 <div class="d-flex justify-content-evenly">
-                  <button onClick="handlePurchase('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">0.2 Sep </button>
+                  <button onClick="handlePurchase('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">0.1 Sep </button>
                   <button>Details</button>
                   </div>
               </div>
