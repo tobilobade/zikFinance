@@ -1,6 +1,5 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  
 }
 
 .hero-container {
@@ -46,6 +45,11 @@ a {
   display: inline-block;
   vertical-align: top;
   background-color: #f8f9fa; /* Background color to distinguish each card */
+  box-shadow: -6px 6px 5px 0px rgba(214,211,211,0.56);
+  -webkit-box-shadow: -6px 6px 5px 0px rgba(214,211,211,0.56);
+  -moz-box-shadow: -6px 6px 5px 0px rgba(214,211,211,0.56);
+  border-radius: 7px;
+  border:0.4px solid #c3c3c3
 }
 
 .container {
@@ -60,15 +64,7 @@ a {
   padding: 10px; /* Add padding to the container */
 }
 
-.card-text-container button {
-  padding: 6px 8px;
-  background-color: #323232;
-  color: coral;
-  border-radius: 10px;
-  border: none;
-  width: 50%;
-  margin: 0 5px;
-}
+
 
 .card-text-container p {
   color: rgb(130, 130, 130);
@@ -81,4 +77,80 @@ a {
 .card-image img {
   max-width: 100%; /* Ensure images don't overflow the container */
   height: auto; /* Maintain aspect ratio */
+}
+
+
+.all-trending-movies-search-bar input{
+  width:50%;
+  padding:10px 16px;
+  border:0.7px solid #cdcdcd;
+  border-radius: 6px;
+}
+
+.all-trending-movies-search-bar button{
+  width:20%;
+  padding:10px 16px;
+  border:0.7px solid #cdcdcd;
+  border-radius: 6px;
+  background-color: #1e2023;
+  color:white;
+}
+
+.home-sub-container3{
+  display:flex;
+  justify-content: space-evenly;
+  align-content: center;
+  height:100vh;
+}
+
+.home-sub-container3-firstDiv{
+  width:50%;
+  padding:10px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-sub-container3-firstDiv h4{
+  width:70%;
+  font-weight: bold;
+}
+
+.home-sub-container3-firstDiv p{
+  width:70%;
+  font-weight: 300;
+  
+}
+
+.explore-sep-btn{
+width: 40%;
+border-radius: 8px;
+border:2px solid blue;
+padding:10px 16px;
+background: none;
+color:blue;
+}
+
+.explore-sep-btn:hover{
+
+  background: blue;
+  color:white;
+  }
+  
+
+.home-sub-container3-secDiv{
+  width:50%;
+  background-image: url(../images/eth-rocket.jpg);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed; 
+}
+
+.parallax {
+  background-image: url(../images/eth-rocket.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  height: 100vh; /* Adjust height as needed */
+  overflow: hidden; 
 }

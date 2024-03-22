@@ -194,7 +194,9 @@ const connectContract = async () => {
     const Address = "0x6af55c49055f56dc48afb7a9e182e5a6eb32c7f0"; // Taking Address from Remix 
     window.web3 = await new Web3(window.ethereum);
     window.contract = await new window.web3.eth.Contract(ABI, Address);
-    document.getElementById("contractArea").innerHTML = "Connected to Contract"; // calling the elementID above
+    document.getElementById("contractArea").innerHTML = "Ready to Transact";
+    document.getElementById("connect-button").style = "background:green; color:white";
+    document.getElementById("connect-button").innerHTML = "CONNECTED";  // calling the elementID above
 }
 
 // Function to get the contract balance for ticket purchase
@@ -212,7 +214,7 @@ const getTopUpBalance = async () => {
     try {
         const userAddress = account; // Use the connected address from MetaMask
         const data = await window.contract.methods.getUserTopUpBalance(userAddress).call();
-        document.getElementById("topUpBalance").innerHTML = `Top-Up Balance: ${data} wei`;
+        document.getElementById("topUpBalance").innerHTML = `Top-Up Balance: ${data} Sepolia`;
     } catch (error) {
         console.error('Error getting top-up balance:', error);
         // Handle error

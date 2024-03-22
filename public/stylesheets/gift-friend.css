@@ -1,0 +1,81 @@
+.gift-friend-container{
+    display:flex;
+    justify-content: space-between;
+}
+
+.gift-friend-sub-container2{
+    height:145vh;
+    background:black ;
+    width:50%;
+
+}
+
+.gift-button{
+ background-color: #cce5ff;
+}
+
+.gift-button:hover{
+ background-color: #3399ff;
+ color:white;
+}
+
+.eth-video-container{
+    background-image: url("../images/eth-cool-vid-.gif");
+    background-position: center;
+    background-size: cover;
+    margin:35% 0;
+    height:50vh;
+}
+
+.gift-friend-sub-container1{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:50%;
+}
+
+.gift-friend-sub-container1 input{
+    width:100%;
+    padding:10px 16px;
+    border:0.7px solid #cdcdcd;
+    border-radius: 6px;
+}
+
+.bitcoinp2p-image{
+    border-radius: 100px;
+    margin:30px 0;
+}
+
+.button{
+    width:100%;
+    padding:10px 16px;
+    border:none;
+    border-radius: 6px;
+}
+
+.connect-button{
+    background-color: #cfcfc4;
+}
+
+.gift-friend-guide-container{
+    background: #3399ff;
+    margin: 5px;
+    width:80%;
+    padding:10px;
+    border-radius: 6px;
+}
+
+.gift-friend-guide-container ul li {
+    background: #cce5ff;
+    color: darkblue;
+    margin: 5px;
+    border-radius: 5px;
+    padding:10px;
+    list-style: none;
+    
+}
+
+.gift-friend-guide-container ul {
+    background: #3399ff;
+    padding: 20px;
+  }

@@ -4,7 +4,8 @@ const connectMetamask = async () => {
     if(window.ethereum !== "undefined") {
         const accounts = await ethereum.request({method: "eth_requestAccounts"});
         account = accounts[0];
-        document.getElementById("userArea").innerHTML = `User Account: ${account}`;
+        document.getElementById("userArea").innerHTML = `(Active): ${account}`;
+        document.getElementById("userArea").style = 'color:#05FF00';
     }
   }
 
@@ -250,6 +251,17 @@ async function handlePurchase(movieId, movieTitle, movieOverview, posterPath) {
 
 //when the window loads, it displays the content gotten from tmdb api
 document.addEventListener("DOMContentLoaded", function() {
+
+  let parallaxContainer = document.querySelector('.parallax');
+
+    window.addEventListener('scroll', function() {
+        let scrollPosition = window.pageYOffset;
+        parallaxContainer.style.backgroundPositionY = `center ${scrollPosition * 0.8}px`;
+    });
+
+    
+
+
   // Your TMDb API key
   const apiKey = "df2c6de7e8ef7c7485ddf9aaf8f0204f";
   
@@ -291,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="card mb-3">
           <div class="row g-0">
 
-            <div class="col-md-4 card-image">
+            <div class="col-md-5 card-image">
               <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" class="img-fluid rounded-start" alt="${movie.title}">
             </div>
 
@@ -300,8 +312,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <h5 class="card-title">${movie.title}</h5>
                 <p class="card-text">${truncatedOverview} ...</p>
                 <div class="d-flex justify-content-evenly">
-                  <button onClick="handlePurchase('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">0.1 Sep </button>
-                  <button>Details</button>
+                  <button class="btn btn-primary" onClick="handlePurchase('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">0.1 Sepolia </button>
+                  <button class="btn btn-outline-primary">Details</button>
                   </div>
               </div>
             </div>
