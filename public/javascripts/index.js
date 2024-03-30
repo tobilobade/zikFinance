@@ -208,7 +208,11 @@ async function handlePurchase(movieId, movieTitle, movieOverview, posterPath) {
     }
   ]; // Your contract ABI
 
+  document.getElementById("transactionStatus").innerText = "";
+
   try {
+    document.getElementById("transactionStatus").innerText = "Transaction in progress... Please wait.";
+    document.getElementById("transactionStatus").style = "color:green;";
       // Check if MetaMask is installed
       if (window.ethereum) {
           // Initialize Web3 with the current provider
@@ -243,10 +247,24 @@ async function handlePurchase(movieId, movieTitle, movieOverview, posterPath) {
   } catch (error) {
       console.error('Error processing transaction:', error);
       // Handle error
+      document.getElementById("transactionStatus").innerText = "Transaction failed. Please try again.";
+      document.getElementById("transactionStatus").style = "color:red;";
+
   }
 }
 
+function showMovieDetails(movieId, movieTitle, movieOverview, posterPath) {
+  // Construct query parameters
+  const queryParams = new URLSearchParams({
+      movieId,
+      movieTitle: encodeURIComponent(movieTitle),
+      movieOverview: encodeURIComponent(movieOverview),
+      posterPath: encodeURIComponent(posterPath)
+  }).toString();
 
+  // Redirect user to movie details page with query parameters
+  window.location.href = `/movie-details?${queryParams}`;
+}
 
 
 //when the window loads, it displays the content gotten from tmdb api
@@ -313,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <p class="card-text">${truncatedOverview} ...</p>
                 <div class="d-flex justify-content-evenly">
                   <button class="btn btn-primary" onClick="handlePurchase('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">0.1 Sepolia </button>
-                  <button class="btn btn-outline-primary">Details</button>
+                  <button class="btn btn-outline-primary" onClick="showMovieDetails('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">Details</button>
                   </div>
               </div>
             </div>
