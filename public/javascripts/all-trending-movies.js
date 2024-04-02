@@ -364,8 +364,9 @@ async function searchMovies() {
                   <h5 class="card-title">${movie.title}</h5>
                   <p class="card-text">${truncatedOverview} ...</p>
                   <div>
-                  <button class="btn btn-primary">0.1 Sepolia </button>
-                  <button class="btn btn-outline-primary">Details</button>
+
+                  <button class="btn btn-primary" onClick="handlePurchase('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">0.1 Sepolia </button>
+                  <button class="btn btn-outline-primary" onClick="showMovieDetails('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">Details</button>
                   </div>
                   
                 </div>

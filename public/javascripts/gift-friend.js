@@ -203,7 +203,8 @@ const connectContract = async () => {
 const getContractBalance = async () => {
     try {
         const data = await window.contract.methods.getContractBalance().call();
-        document.getElementById("contractBalance").innerHTML = `Contract Balance (Ticket Purchase): ${data} wei`;
+        const balanceInEther = web3.utils.fromWei(data, 'ether');
+        document.getElementById("contractBalance").innerHTML = `Contract Balance (Ticket Purchase): ${balanceInEther} ether`;
     } catch (error) {
         console.error('Error getting contract balance:', error);
         // Handle error
@@ -214,7 +215,8 @@ const getTopUpBalance = async () => {
     try {
         const userAddress = account; // Use the connected address from MetaMask
         const data = await window.contract.methods.getUserTopUpBalance(userAddress).call();
-        document.getElementById("topUpBalance").innerHTML = `Top-Up Balance: ${data} Sepolia`;
+        const balanceInEther = window.web3.utils.fromWei(data, 'ether');
+        document.getElementById("topUpBalance").innerHTML = `Top-Up Balance: ${balanceInEther} Sepolia`;
     } catch (error) {
         console.error('Error getting top-up balance:', error);
         // Handle error

@@ -122,6 +122,11 @@ a {
   
 }
 
+.home-sub-container3-firstDiv a{
+  text-decoration: none;
+  text-align: center;
+}
+
 .explore-sep-btn{
 width: 40%;
 border-radius: 8px;

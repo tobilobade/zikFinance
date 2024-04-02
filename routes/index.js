@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
+const nodemailer = require('nodemailer');
+
+router.use(express.json());
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -50,6 +53,53 @@ router.get('/purchased', async (req, res) => {
   // Rendered the purchase tokens form using EJS
   const { movieId, movieTitle, movieOverview, posterPath } = req.query;
   res.render('purchasedSep', { movieTitle, movieOverview, posterPath });
+});
+
+router.get('/learn', function(req, res, next) {
+  res.render('learn'); // Render the HTML page for all trending movies
+});
+
+
+router.get('/contact', function(req, res, next) {
+  res.render('contact'); // Render the HTML page for all trending movies
+});
+
+router.get('/owner', function(req, res, next) {
+  res.render('owner'); // Render the HTML page for all trending movies
+});
+
+router.post('/send-email', function(req, res, next) {
+  const {email, message } = req.body;
+  console.log("Email received:", email);
+  console.log("Message received:", message);
+
+  // Create a nodemailer transporter
+  const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+          user: 'dammyadetugboboh@gmail.com',
+          pass: 'xalr csao hcyw bhst'
+      }
+  });
+
+  // Email options
+  const mailOptions = {
+      from: 'damisinterfaces@gmail.com',
+      to: email,
+      subject: 'Your Inquiry Has Been Received',
+      text: `Dear Customer,\n\nThank you for reaching out to us. We have received your inquiry and will address it as soon as possible. Here is a copy of your message:\n\n${message}\n\nIf you have any further questions or concerns, feel free to contact us again.\n\nBest Regards,\nDSA`
+  };
+
+  // Send email
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.log(error);
+          res.send('Error sending email.');
+      } else {
+          console.log('Email sent: ' + info.response);
+          res.send('Ticket has been raised and You will receive an email shortly. Gracias!');
+      }
+  });
 });
 
 module.exports = router;

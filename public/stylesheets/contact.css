@@ -1,0 +1,45 @@
+form {
+    margin: auto;
+    width: 50%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+input, textarea, input[type=submit] {
+    width: 100%;
+    padding: 12px;
+    margin: 6px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.contact-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container{
+    width: 50%;
+}
+
+.image-container{
+    width: 50%;
+}
+
+.contact-sub-text{
+    width:50%;
+    margin: 10px auto;
+    color:grey
+}

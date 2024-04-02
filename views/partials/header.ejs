@@ -25,11 +25,15 @@
           <a class="nav-link" href="/all-trending-movies">Movies</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Learn</a>
+          <a class="nav-link" href="/learn">Learn</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link" href="/contact">Contact</a>
         </li>
+        <li id="ownerLink" class="owner">
+          <a class="nav-link" href="/owner">Owner</a>
+      </li>
+        
         <li class="nav-item">
           <button id="userArea" class="nav-link" onclick="connectMetamask()">login</button>
         </li>
@@ -40,4 +44,32 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="/javascripts/index.js"></script>
+<script>
+  // Check if the user is logged in and their address matches the contract owner's address
+  async function checkOwnerAddress() {
+      try {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          const userAddress = accounts[0];
+
+          console.log(userAddress)
+  
+          // Replace 'your_owner_address' with the actual address the contract was created with
+          const contractOwnerAddress = '0x45742BaCd53496eFFeB1a1e4839a66962Dead0b5';
+  
+          if (userAddress.toLowerCase() === contractOwnerAddress.toLowerCase()) {
+            document.getElementById('ownerLink').style.display = 'block';
+        } else {
+            // If the user is logged in but their address does not match the contract owner's address, hide the "Owner" link
+            document.getElementById('ownerLink').style.display = 'none';
+        }
+    }  catch (error) {
+          console.error('Error checking owner address:', error);
+          // Handle error
+      }
+  }
+  
+  // Call the function when the page loads
+  window.onload = checkOwnerAddress;
+  </script>
+  
 </html>
