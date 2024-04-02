@@ -253,6 +253,7 @@ async function handlePurchase(movieId, movieTitle, movieOverview, posterPath) {
   }
 }
 
+// Function to render the movie details
 function showMovieDetails(movieId, movieTitle, movieOverview, posterPath) {
   // Construct query parameters
   const queryParams = new URLSearchParams({

@@ -204,13 +204,15 @@ const getContractBalance = async () => {
     try {
         const data = await window.contract.methods.getContractBalance().call();
         const balanceInEther = web3.utils.fromWei(data, 'ether');
-        document.getElementById("contractBalance").innerHTML = `Contract Balance (Ticket Purchase): ${balanceInEther} ether`;
+        document.getElementById("contractBalance").innerHTML = `Contract Balance (Ticket Purchase): ${balanceInEther} Sep`;
     } catch (error) {
         console.error('Error getting contract balance:', error);
         // Handle error
     }
 }
 
+
+// Function to get dsa balance
 const getTopUpBalance = async () => {
     try {
         const userAddress = account; // Use the connected address from MetaMask
@@ -223,6 +225,8 @@ const getTopUpBalance = async () => {
     }
 }
 
+
+// Function to withdraw from contract funds by owner
 const withdraw = async () => {
     const amountInEther = document.getElementById("amountInput").value;
     const amountInWei = web3.utils.toWei(amountInEther, 'ether');
@@ -237,7 +241,7 @@ const withdraw = async () => {
     }
 }
 
-
+// Function to top up dsa balance
 const topUpContract = async () => {
     const amountInEther = parseFloat(document.getElementById("topUpInput").value);
     const amountInWei = web3.utils.toWei(amountInEther.toString(), 'ether');

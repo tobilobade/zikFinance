@@ -1,0 +1,30 @@
+.purchased-container{
+    border-radius: 10px;
+    width:50%;
+    margin: 10px auto;
+    -webkit-box-shadow: -7px 7px 11px 0px #c7c7c7;
+    -moz-box-shadow: -7px 7px 11px 0px #c7c7c7;
+    box-shadow: -7px 7px 11px 0px #c7c7c7;
+    padding: 20px;
+}
+
+.generate-btn{
+    border: none;
+    border-radius: 10px;
+    background-color: #1c1c1c;
+    color:white;
+    padding:10px 20px;
+    display: block;
+    margin: 0 auto;
+    width:50%;
+}
+
+.purchased-img {
+    margin: 10px auto;
+    max-width: 100%; 
+    max-height: 500px;
+    width: auto; 
+    height: auto;
+    display: block;
+    
+}

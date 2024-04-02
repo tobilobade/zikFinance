@@ -1,0 +1,39 @@
+.owner-container{
+    border-radius: 10px;
+    width:50%;
+    margin: 10px auto;
+    -webkit-box-shadow: -7px 7px 11px 0px #c7c7c7;
+    -moz-box-shadow: -7px 7px 11px 0px #c7c7c7;
+    box-shadow: -7px 7px 11px 0px #c7c7c7;
+    padding: 20px;
+}
+
+.general-btn{
+    border: none;
+    border-radius: 10px;
+    background-color: #1c1c1c;
+    color:white;
+    padding:10px 20px;
+    display: block;
+    margin: 0 auto;
+    width:50%;
+}
+
+.connect-button{
+    border: none;
+    border-radius: 10px;
+    padding:10px 20px;
+    display: block;
+    margin: 0 auto;
+    width:50%;
+}
+
+.contract-balance input{
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

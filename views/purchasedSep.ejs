@@ -3,19 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/purchased.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Purchased</title>
 </head>
 <body>
-    <h1>Thank you for your purchase!</h1>
-    <div>
-        <h2><%= decodeURIComponent(movieTitle) %></h2>
-        <img src="https://image.tmdb.org/t/p/w500/<%= decodeURIComponent(posterPath) %>" alt="<%= decodeURIComponent(movieTitle) %> Poster">
+    <% include partials/header.ejs %>  
+    <h3 class="text-center my-5">Thank you for your purchase!</h3>
+    <div class="purchased-container mt-5">
+        <h2 class="text-center text-uppercase"><%= decodeURIComponent(movieTitle) %></h2>
+        <img class="purchased-img"  src="https://image.tmdb.org/t/p/w500/<%= decodeURIComponent(posterPath) %>" alt="<%= decodeURIComponent(movieTitle) %> Poster">
         <p><%= decodeURIComponent(movieOverview) %></p>
-        <p> Purchased for 0.1 Sepolia</p>
-        <p> check your metamask wallet for transaction receipt</p>
-        <p> take this code to the nearest cinema</p>
-
+        <p class="fst-italic text-center"> Purchased for 0.1 Sepolia</p>
+        <p class="fw-bolder text-center text-capitalize"> check your metamask wallet for transaction receipt</p>
     </div>
-    <!-- Display other receipt information as needed -->
+
+    <div class="mt-5">
+        <button class="generate-btn" id="generateCodeButton">Generate Code</button>
+        <p class="text-center text-uppercase mt-3">Code: <span class="fw-bolder" id="generatedCode"></span></p>
+        <p class="text-center text-uppercase fw-bolder " style="color:rgb(4, 127, 15)">Take this code to the nearest cinema. Enjoy your Discount!!</p>
+    </div>
+ 
+
+
+
 </body>
+    <script>
+        document.getElementById('generateCodeButton').addEventListener('click', function() {
+            const code = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            document.getElementById('generatedCode').textContent = "DSA"+code;
+            this.disabled = true;
+            document.getElementById('generateCodeButton').style= "background:grey; cursor:not-allowed;";
+        });
+    </script>
 </html>
