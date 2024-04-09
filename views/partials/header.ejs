@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark header px-3" style="background:#000000;">
+  <nav class="navbar navbar-expand-lg navbar-dark header px-3" style="background:#4b00c2;">
 
     <a class="navbar-brand" href="/">Zik Finance</a>
 
@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse justify-content-end " id="navbarNavDropdown">
       <ul class="navbar-nav ">
         <li class="nav-item">
-          <a class="nav-link" href="/all-trending-movies">Thrift savings</a>
+          <a class="nav-link" href="/thrift-savings">Thrift savings</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/">Expense splitter</a>
@@ -40,33 +40,5 @@
   
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="/javascripts/index.js"></script>
-<script>
-  // Check if the user is logged in and their address matches the contract owner's address
-  async function checkOwnerAddress() {
-      try {
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-          const userAddress = accounts[0];
-
-          console.log(userAddress)
-  
-          // Replace 'your_owner_address' with the actual address the contract was created with
-          const contractOwnerAddress = '0x45742BaCd53496eFFeB1a1e4839a66962Dead0b5';
-  
-          if (userAddress.toLowerCase() === contractOwnerAddress.toLowerCase()) {
-            document.getElementById('ownerLink').style.display = 'block';
-        } else {
-            // If the user is logged in but their address does not match the contract owner's address, hide the "Owner" link
-            document.getElementById('ownerLink').style.display = 'none';
-        }
-    }  catch (error) {
-          console.error('Error checking owner address:', error);
-          // Handle error
-      }
-  }
-  
-  // Call the function when the page loads
-  window.onload = checkOwnerAddress;
-  </script>
-  
+<script src="/public/javascripts/index.js"></script>
 </html>

@@ -1,351 +1,376 @@
-
+let web3;
+let thriftSavingsContract;
 let account;
+let futureBalanceInterval; 
+
 const connectMetamask = async () => {
-    if(window.ethereum !== "undefined") {
-        const accounts = await ethereum.request({method: "eth_requestAccounts"});
-        account = accounts[0];
-        document.getElementById("userArea").innerHTML = `(Active): ${account}`;
-        document.getElementById("userArea").style = 'color:#05FF00';
-    }
+  if(window.ethereum !== "undefined") {
+      const accounts = await ethereum.request({method: "eth_requestAccounts"});
+      account = accounts[0];
+      const truncatedAddress = `${account.substring(0, 6)}...${account.substring(account.length - 4)}`; // Truncate the address
+      document.getElementById("userArea").innerHTML = `${truncatedAddress}`;
+      document.getElementById("userArea").style = 'color:#05FF00';
   }
+}
 
 
-
-
-
-// Function to handle transaction
-async function handlePurchase(movieId, movieTitle, movieOverview, posterPath) {
-  const contractAddress = '0x6af55c49055f56dc48afb7a9e182e5a6eb32c7f0';
-  const contractABI = [
-    {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "FundToppedUp",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "buyer",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "Purchase",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "purchaseTicket",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "topUpFunds",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "recipient",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "Withdrawal",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address payable",
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "withdrawTicketFunds",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address payable",
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "withdrawUserFunds",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getContractBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getOwner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_user",
-          "type": "address"
-        }
-      ],
-      "name": "getUserTopUpBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address payable",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "userBalances",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]; // Your contract ABI
-
-  document.getElementById("transactionStatus").innerText = "";
-
+// Function to connect MetaMask and initialize contract
+async function connectMetamaskAndInitializeContract() {
   try {
-    document.getElementById("transactionStatus").innerText = "Transaction in progress... Please wait.";
-    document.getElementById("transactionStatus").style = "color:green;";
-      // Check if MetaMask is installed
-      if (window.ethereum) {
-          // Initialize Web3 with the current provider
-          const web3 = new Web3(window.ethereum);
-          // Request account access if needed
-          await window.ethereum.enable();
-          // Get the accounts
-          const accounts = await web3.eth.getAccounts();
-          const account = accounts[0];
+      if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
+          // Request MetaMask accounts
+          const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+          account = accounts[0];
+          document.getElementById("userArea").innerHTML = `(Active): ${account}`;
+          document.getElementById("userArea").style = 'color:#05FF00';
 
+          // Initialize Web3 with MetaMask provider
+          web3 = new Web3(window.ethereum);
+
+          // Contract address and ABI
+          const contractAddress = '0x51c6ec16bf9685f7679f3895d6b08bf8f03c5de6';
+          const contractABI = [
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "groupOwner",
+                  "type": "address"
+                }
+              ],
+              "name": "contribute",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "string[]",
+                  "name": "friendNames",
+                  "type": "string[]"
+                },
+                {
+                  "internalType": "address[]",
+                  "name": "friendAddresses",
+                  "type": "address[]"
+                }
+              ],
+              "name": "createGroup",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "groupOwner",
+                  "type": "address"
+                }
+              ],
+              "name": "distributeFunds",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "groupOwner",
+                  "type": "address"
+                }
+              ],
+              "name": "joinGroup",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "groupOwner",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "member",
+                  "type": "address"
+                }
+              ],
+              "name": "getBalance",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "groupOwner",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "member",
+                  "type": "address"
+                }
+              ],
+              "name": "getFriendAddress",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "groupOwner",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "member",
+                  "type": "address"
+                }
+              ],
+              "name": "getFriendName",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "groupOwnerAddress",
+                  "type": "address"
+                }
+              ],
+              "name": "getGroupDetails",
+              "outputs": [
+                {
+                  "internalType": "address[]",
+                  "name": "",
+                  "type": "address[]"
+                },
+                {
+                  "internalType": "uint256[]",
+                  "name": "",
+                  "type": "uint256[]"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            }
+          ]; 
           // Initialize contract instance
-          const contract = new web3.eth.Contract(contractABI, contractAddress);
-
-          // Call the purchaseTicket function
-          const receipt = await contract.methods.purchaseTicket().send({
-              from: account,
-              value: web3.utils.toWei('0.1', 'ether'), // Sending 0.2 ether
-          });
-
-          // Transaction successful, redirect user
-          const queryParams = new URLSearchParams({
-            movieId,
-            movieTitle: encodeURIComponent(movieTitle),
-            movieOverview: encodeURIComponent(movieOverview),
-            posterPath: encodeURIComponent(posterPath)
-        }).toString();
-
-          window.location.href = `/purchased?${queryParams}`;
+          thriftSavingsContract = new web3.eth.Contract(contractABI, contractAddress);
+          alert('Contract initialized successfully');
       } else {
           console.error('MetaMask is not installed.');
       }
   } catch (error) {
-      console.error('Error processing transaction:', error);
-      // Handle error
-      document.getElementById("transactionStatus").innerText = "Transaction failed. Please try again.";
-      document.getElementById("transactionStatus").style = "color:red;";
-
+      console.error('Error connecting MetaMask and initializing contract:', error);
   }
 }
 
-// Function to render the movie details
-function showMovieDetails(movieId, movieTitle, movieOverview, posterPath) {
-  // Construct query parameters
-  const queryParams = new URLSearchParams({
-      movieId,
-      movieTitle: encodeURIComponent(movieTitle),
-      movieOverview: encodeURIComponent(movieOverview),
-      posterPath: encodeURIComponent(posterPath)
-  }).toString();
-
-  // Redirect user to movie details page with query parameters
-  window.location.href = `/movie-details?${queryParams}`;
-}
 
 
-//when the window loads, it displays the content gotten from tmdb api
-document.addEventListener("DOMContentLoaded", function() {
+const contractAddress = '0xae1ee0f0be3f83d3b5c3bfe65f6bb3f00825aa8c';
+const contractABI = [
+	{
+		"inputs": [],
+		"name": "contribute",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "getBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]; // Replace with your contract ABI
 
-  let parallaxContainer = document.querySelector('.parallax');
-
-    window.addEventListener('scroll', function() {
-        let scrollPosition = window.pageYOffset;
-        parallaxContainer.style.backgroundPositionY = `center ${scrollPosition * 0.8}px`;
-    });
-
-    
 
 
-  // Your TMDb API key
-  const apiKey = "df2c6de7e8ef7c7485ddf9aaf8f0204f";
-  
-  // Endpoint URL for trending movies
-  const apiUrl = `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`;
-
-  // Function to fetch all trending movies from TMDb API
-  async function fetchAllTrendingMovies() {
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      return data.results;
-    } catch (error) {
-      console.error("Error fetching trending movies:", error);
-      return [];
+async function initialize() {
+    // Initialize Web3
+    if (typeof window.ethereum !== 'undefined') {
+        web3 = new Web3(window.ethereum);
+        await window.ethereum.enable();
+    } else {
+        console.error('MetaMask is not installed.');
+        return;
     }
-  }
 
-  // Function to render the first 6 trending movies on the webpage
-  async function renderFirstSixTrendingMovies() {
-    const trendingMoviesContainer = document.getElementById("trendingMovies");
+    // Initialize contract instance
+    thriftSavingsContract = new web3.eth.Contract(contractABI, contractAddress);
 
-    const allTrendingMovies = await fetchAllTrendingMovies();
-    if (allTrendingMovies.length === 0) {
-      trendingMoviesContainer.innerHTML = "<p>No trending movies found.</p>";
+    // Display user balance
+    await displayBalance();
+    startFutureBalanceInterval();
+    displaySavedWithdrawalDate(); 
+
+}
+
+async function contribute() {
+  const amount = document.getElementById('contributionAmount').value;
+  if (!amount) {
+      alert('Please enter a contribution amount');
       return;
-    }
-
-  
-    // Take only the first 6 movies
-    const firstSixTrendingMovies = allTrendingMovies.slice(0, 6);
-
-    // Generate HTML for the first 6 trending movies
-    const moviesHtml = firstSixTrendingMovies.map(movie => {
-      const overviewWords = movie.overview.split(" ").slice(0, 15);
-      const truncatedOverview = overviewWords.join(" ");
-
-      return `
-        <div class="card mb-3">
-          <div class="row g-0">
-
-            <div class="col-md-5 card-image">
-              <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" class="img-fluid rounded-start" alt="${movie.title}">
-            </div>
-
-            <div class="col-md-7">
-              <div class="card-body card-text-container">
-                <h5 class="card-title">${movie.title}</h5>
-                <p class="card-text">${truncatedOverview} ...</p>
-                <div class="d-flex justify-content-evenly">
-                  <button class="btn btn-primary" onClick="handlePurchase('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">0.1 Sepolia </button>
-                  <button class="btn btn-outline-primary" onClick="showMovieDetails('${movie.id}', '${movie.title}', '${movie.overview}', '${movie.poster_path}')">Details</button>
-                  </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      `;
-    }).join("");
-
-    // Append HTML to the container
-    trendingMoviesContainer.innerHTML = moviesHtml;
+  }
+  const withdrawalDate = document.getElementById('withdrawalDate').value; // Retrieve withdrawal date
+  if (!withdrawalDate) {
+      alert('Please select a withdrawal date');
+      return;
   }
 
-  // Call the renderFirstSixTrendingMovies function to display the first 6 trending movies on page load
-  renderFirstSixTrendingMovies();
-});
+  saveWithdrawalDate();
+
+  const amountInWei = web3.utils.toWei(amount, 'ether'); // Convert Ether to wei
+  const accounts = await web3.eth.getAccounts();
+  const from = accounts[0]; // Get the first account from MetaMask
+
+  await thriftSavingsContract.methods.contribute().send({ from, value: amountInWei });
+  await displayBalance();
+}
+
+async function withdraw() {
+  const amount = document.getElementById('withdrawalAmount').value;
+  if (!amount) {
+      alert('Please enter a withdrawal amount');
+      return;
+  }
+
+  const amountInWei = web3.utils.toWei(amount, 'ether'); // Convert withdrawal amount to Wei
+  const accounts = await web3.eth.getAccounts();
+  const sender = accounts[0]; // Get the first account from MetaMask
+  await thriftSavingsContract.methods.withdraw(amountInWei).send({ from: sender });
+  await displayBalance();
+}
+
+async function displayBalance() {
+    const accounts = await web3.eth.getAccounts();
+    const account = accounts[0];
+    const balance = await thriftSavingsContract.methods.getBalance(account).call();
+    document.getElementById('balance').innerText = `Your balance: ${web3.utils.fromWei(balance, 'ether')} ETH`;
+}
+
+function saveWithdrawalDate() {
+  const withdrawalDate = document.getElementById('withdrawalDate').value;
+  localStorage.setItem('withdrawalDate', withdrawalDate);
+}
+
+// Function to retrieve selected withdrawal date from local storage
+function getWithdrawalDate() {
+  savedWithdrawalDate= localStorage.getItem('withdrawalDate');
+  return savedWithdrawalDate
+  
+}
+
+
+async function startFutureBalanceInterval() {
+  futureBalanceInterval = setInterval(async () => {
+      await displayFutureBalance();
+  }, 20000); 
+}
+
+async function stopFutureBalanceInterval() {
+  clearInterval(futureBalanceInterval);
+}
+async function displayFutureBalance() {
+  const balanceElement = document.getElementById('futureBalance');
+  const withdrawalDate = getWithdrawalDate(); // Retrieve withdrawal date from local storage
+
+  const accounts = await web3.eth.getAccounts();
+  const account = accounts[0];
+  if (!account) {
+      balanceElement.innerText = 'Please connect your wallet';
+      return;
+  }
+
+  let futureBalance = await calculateFutureBalance(account, withdrawalDate);
+  balanceElement.innerText = `Future Balance: ${web3.utils.fromWei(futureBalance, 'ether')} ETH (withdrawal not available till 6 months)`;
+}
+
+
+async function calculateFutureBalance(account, withdrawalDate) {
+  const currentBalance = await thriftSavingsContract.methods.getBalance(account).call();
+  const initialBalance = web3.utils.fromWei(currentBalance, 'ether');
+
+  if (initialBalance === '0') {
+      return '0';
+  }
+
+  const interestRate = 0.03; // 3% interest rate per annum
+  const intervalSeconds = 10; // 10 seconds interval
+  const secondsInYear = 365 * 24 * 60 * 60; // Number of seconds in a year
+
+  const timeElapsed = (new Date() - new Date(withdrawalDate)) / 1000; // Time elapsed since withdrawal date in seconds
+  const yearsElapsed = timeElapsed / secondsInYear; // Convert time elapsed to years
+
+  const futureBalance = Number(initialBalance) * Math.pow((1 + interestRate), yearsElapsed); // Calculate future balance
+  return web3.utils.toWei(futureBalance.toString(), 'ether');
+
+
+
+}
+
+async function displaySavedWithdrawalDate() {
+  const withdrawalDate = getWithdrawalDate();
+  if (withdrawalDate) {
+    document.getElementById('withdrawalDateDisplay').innerText = `Your saved Withdrawal Date: ${withdrawalDate}`;
+  } else {
+    document.getElementById('withdrawalDateDisplay').innerText = 'Withdrawal Date not set';
+  }
+}
+window.onload = initialize;
