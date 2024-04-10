@@ -1,23 +1,71 @@
-.thrift-contatiner{
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.subtitle {
+    margin-top: 20px;
+}
+
+.group-container {
+   display: flex;
+   justify-content:space-evenly;
+   align-items: center;
+
+}
+
+.group-card {
+    padding: 30px;
+    margin-bottom: 20px;
+    background-color: rgb(53, 5, 74);
+
+    color:white;
+    border-radius: 15px;
+    width:400px;
+}
+
+.contribution {
+    margin-top: 20px;
+}
+
+.balance-list {
+    list-style: none;
+    padding: 0;
+}
+
+.input-field {
+    margin-bottom: 10px;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    background-color: #0056b3;
+}
+
+
+.balance-list {
+    list-style-type: none;
+  }
+  
+  .thrift-contatiner{
     background-color: rgba(202, 89, 252, 1);
     background-image: linear-gradient(0deg, rgba(202, 89, 252, 1) 0%, rgba(41, 53, 86, 1) 100%);
     display:flex;
     justify-content: space-evenly;
     align-items: center;
-    color:white;
-}
-
-.thrift-info-container{
-    background-color: rgba(202, 89, 252, 1);
-    background-image: linear-gradient(0deg, rgba(202, 89, 252, 1) 0%, rgba(41, 53, 86, 1) 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height:50vh;
-    padding: 20px;
-    width:70%;
-    margin: 20px auto;
-    border-radius: 10px;
     color:white;
 }

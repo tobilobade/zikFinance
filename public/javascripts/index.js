@@ -242,25 +242,7 @@ const contractABI = [
 
 
 
-async function initialize() {
-    // Initialize Web3
-    if (typeof window.ethereum !== 'undefined') {
-        web3 = new Web3(window.ethereum);
-        await window.ethereum.enable();
-    } else {
-        console.error('MetaMask is not installed.');
-        return;
-    }
 
-    // Initialize contract instance
-    thriftSavingsContract = new web3.eth.Contract(contractABI, contractAddress);
-
-    // Display user balance
-    await displayBalance();
-    startFutureBalanceInterval();
-    displaySavedWithdrawalDate(); 
-
-}
 
 async function contribute() {
   const amount = document.getElementById('contributionAmount').value;
@@ -373,4 +355,3 @@ async function displaySavedWithdrawalDate() {
     document.getElementById('withdrawalDateDisplay').innerText = 'Withdrawal Date not set';
   }
 }
-window.onload = initialize;
