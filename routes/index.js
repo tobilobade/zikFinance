@@ -20,8 +20,25 @@ router.get('/contact', function(req, res, next) {
     res.render('contact'); 
 });
 
+router.get('/about', function(req, res, next) {
+    res.render('about'); 
+});
+
 router.get('/piggy', function(req, res, next) {
     res.render('piggy'); 
 });
+
+
+router.post('/submit-query', (req, res) => {
+
+    const { wallet, email, message } = req.body;
+  
+    res.redirect('/thank-you');
+  });
+  
+  // Route for the thank-you page
+router.get('/thank-you', (req, res) => {
+    res.render('response'); 
+  });
 
 module.exports = router;

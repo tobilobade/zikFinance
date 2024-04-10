@@ -9,14 +9,11 @@
 <body>
     <%- include partials/header.ejs %>
     <h3 class="text-center my-3">Contact us</h3>
-    <p class="text-center contact-sub-text">Connect with us and become a part of the decentralized revolution! Whether you have questions, suggestions, 
-        or just want to say hello, we're here to listen. Our team is dedicated to empowering individuals like you to embrace the future of decentralization. </p>
+    <p class="text-center contact-sub-text">Engage with us and join the movement towards decentralization! Whether you seek answers,
+        have ideas to share, or simply want to connect, we're all ears. </p>
     <div class="contact-container">
         <div class="form-container">
-            <form onsubmit="complainAndReceiveTokens(); sendMail(); return false;">
-                <label for="name">pseudoname:</label>
-                <input type = "text" id="name" name="username" placeholder="Enter your Pseudoname" required>
-        
+            <form action="/submit-query" method="POST">
                 <label for="wallet">Wallet address</label>
                 <input type = "text" id="wallet" name="wallet" placeholder="Enter your wallet address" required>
         
@@ -28,10 +25,6 @@
         
                 <input type="submit" value="Submit">
             </form>
-        </div>
-
-        <div class="image-container">
-           <img src="../images/support.gif">
         </div>
     </div>
    
